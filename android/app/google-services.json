@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "834446259695",
+    "project_id": "weight-record-nasubibocchi",
+    "storage_bucket": "weight-record-nasubibocchi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834446259695:android:0ca0943b9387c89f87b21a",
+        "android_client_info": {
+          "package_name": "com.example.weight_record_nasubibocchi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834446259695-i0k3i6rcg21d14fnr5h6bmkghgjc3ndt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmpTXK9K_MZmL_Gph_lYq1ZefOoU1db_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834446259695-i0k3i6rcg21d14fnr5h6bmkghgjc3ndt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "834446259695-l1m1b2on7vt82fp54ui53pn4dqrgh7aj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.weightRecordNasubibocchi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
