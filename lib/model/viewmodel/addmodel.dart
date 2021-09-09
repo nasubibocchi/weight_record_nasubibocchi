@@ -6,7 +6,8 @@ import 'package:weight_record_nasubibocchi/constants/const.dart';
 
 ///provider
 final userInfoModelProvider =
-    StateNotifierProvider<UserInfoModelState, UserInfoModel>((ref) => UserInfoModelState());
+    StateNotifierProvider<UserInfoModelState, UserInfoModel>(
+        (ref) => UserInfoModelState());
 
 ///properties
 class UserInfoModel {
@@ -52,8 +53,7 @@ class UserInfoModelState extends StateNotifier<UserInfoModel> {
 
   ///確認ダイアログ
   Future<void> showMyDialog({required context, required text}) async {
-
-    return showDialog<void>(
+    final dialogResult = showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
@@ -77,6 +77,6 @@ class UserInfoModelState extends StateNotifier<UserInfoModel> {
         );
       },
     );
+    return await dialogResult;
   }
-
 }

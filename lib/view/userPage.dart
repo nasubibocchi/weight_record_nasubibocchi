@@ -76,9 +76,9 @@ class UserPage extends HookConsumerWidget {
                         password: password,
                         username: username,
                         errorMessage: errorMessage,
-                        successShowDialog: _addModelController.showMyDialog(
+                        successShowDialog: () => _addModelController.showMyDialog(
                             context: context, text: '登録しました。ログインボタンを押してください。'),
-                        errorShowDialog: _addModelController.showMyDialog(
+                        errorShowDialog: (errorMessage) async => await _addModelController.showMyDialog(
                             context: context, text: errorMessage)),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50.0)),
@@ -97,7 +97,7 @@ class UserPage extends HookConsumerWidget {
                         password: password,
                         username: username,
                         errorMessage: errorMessage,
-                        errorShowDialog: _addModelController.showMyDialog(
+                        errorShowDialog: (errorMessage) async => await _addModelController.showMyDialog(
                             context: context, text: errorMessage)),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50.0)),

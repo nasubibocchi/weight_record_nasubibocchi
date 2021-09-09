@@ -71,47 +71,50 @@ class LoginModel {
       required String email,
       required String password,
       required String username,
-      required String errorMessage, required successShowDialog,
-      required errorShowDialog}) async {
+      required String errorMessage, required Function successShowDialog,
+      required Function errorShowDialog}) async {
     try {
       await auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) {
         print(FirebaseAuth.instance.currentUser!.displayName);
       });
-      successShowDialog;
 
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
-        case "ERROR_INVALID_EMAIL":
+        case "invalid-email":
           errorMessage = "メールアドレスの形式が正しくないようです。";
           break;
-        case "ERROR_WRONG_PASSWORD":
+        case "wrong-password":
           errorMessage = "パスワードが間違っているようです。";
           break;
-        case "ERROR_USER_NOT_FOUND":
+        case "user-not-found":
           errorMessage = "このメールアドレスは存在しないようです。";
           break;
-        case "ERROR_USER_DISABLED":
+        case "user-disabled":
           errorMessage = "このメールアドレスのユーザーは無効になりました。";
           break;
-        case "ERROR_TOO_MANY_REQUESTS":
+        case "too-many-requests":
           errorMessage = "Too many requests. Try again later.";
           break;
-        case "ERROR_OPERATION_NOT_ALLOWED":
+        case "operation-not-allowed":
           errorMessage = "メールアドレスとパスワードを使用したサインインが有効になっていません。";
+          break;
+        case "email-already-in-use":
+          errorMessage = "このメールアドレスはすでに使われているようです。ログインボタンを試してみてください。";
           break;
         default:
           errorMessage = "原因不明のエラーが発生したようです。";
       }
       if (errorMessage != null) {
         //_addModelController.showMyDialog(context: context, text: errorMessage);
-        errorShowDialog;
+        await errorShowDialog(errorMessage);
         return Future.error(errorMessage);
       }
       print('ログイン失敗');
       print(e);
     } on Exception catch (e) {
+      await successShowDialog();
       print('ログイン成功');
       print(e);
     }
@@ -124,7 +127,7 @@ class LoginModel {
       required String password,
       required String username,
       required String errorMessage,
-      required errorShowDialog}) async {
+      required Function errorShowDialog}) async {
     try {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
@@ -146,30 +149,33 @@ class LoginModel {
       );
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
-        case "ERROR_INVALID_EMAIL":
+        case "invalid-email":
           errorMessage = "メールアドレスの形式が正しくないようです。";
           break;
-        case "ERROR_WRONG_PASSWORD":
+        case "wrong-password":
           errorMessage = "パスワードが間違っているようです。";
           break;
-        case "ERROR_USER_NOT_FOUND":
+        case "user-not-found":
           errorMessage = "このメールアドレスは存在しないようです。";
           break;
-        case "ERROR_USER_DISABLED":
+        case "user-disabled":
           errorMessage = "このメールアドレスのユーザーは無効になりました。";
           break;
-        case "ERROR_TOO_MANY_REQUESTS":
+        case "too-many-requests":
           errorMessage = "Too many requests. Try again later.";
           break;
-        case "ERROR_OPERATION_NOT_ALLOWED":
+        case "operation-not-allowed":
           errorMessage = "メールアドレスとパスワードを使用したサインインが有効になっていません。";
+          break;
+        case "email-already-in-use":
+          errorMessage = "このメールアドレスはすでに使われているようです。";
           break;
         default:
           errorMessage = "原因不明のエラーが発生したようです。";
       }
       if (errorMessage != null) {
-        //_addModelController.showMyDialog(context: context, text: errorMessage);
-        errorShowDialog;
+        // _addModelController.showMyDialog(context: context, text: errorMessage);
+        await errorShowDialog(errorMessage);
         return Future.error(errorMessage);
       }
       print('ログイン失敗');
