@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weight_record_nasubibocchi/constants/const.dart';
+import 'package:weight_record_nasubibocchi/main.dart';
 import 'package:weight_record_nasubibocchi/model/symplemodel/loginmodel.dart';
 import 'package:weight_record_nasubibocchi/model/viewmodel/addmodel.dart';
 
 class UserPage extends HookConsumerWidget {
   String username = '';
-  String height = '';
   String email = '';
   String password = '';
   final auth = FirebaseAuth.instance;
   final _nameController = TextEditingController();
-  final _heightController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  String exportedHeight = '';
+  String errorMessage = '';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +29,6 @@ class UserPage extends HookConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              //TODO: 体裁を整える
               TextField(
                 decoration: InputDecoration(
                   labelText: 'name',
@@ -41,18 +39,6 @@ class UserPage extends HookConsumerWidget {
                 keyboardType: TextInputType.text,
                 onChanged: (text) {
                   username = text;
-                },
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'height',
-                  hintText: '168.5',
-                  labelStyle: kBlackTextStyle,
-                ),
-                controller: _heightController,
-                keyboardType: TextInputType.text,
-                onChanged: (text) {
-                  height = text;
                 },
               ),
               TextField(
@@ -70,7 +56,7 @@ class UserPage extends HookConsumerWidget {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'password',
-                  hintText: '6文字以上',
+                  hintText: 'パスワードを入力',
                   labelStyle: kBlackTextStyle,
                 ),
                 controller: _passwordController,
@@ -80,55 +66,51 @@ class UserPage extends HookConsumerWidget {
                 },
               ),
               SizedBox(width: 10.0, height: 20.0),
-              MaterialButton(
-                onPressed: () async {
-                  try {
-                    await auth
-                        .createUserWithEmailAndPassword(
-                            email: email, password: password)
-                        .then((value) {
-                      print(FirebaseAuth.instance.currentUser!.displayName);
-                    });
-                    await auth
-                        .signInWithEmailAndPassword(
-                            email: email, password: password)
-                        .then((value) {
-                      print(FirebaseAuth.instance.currentUser!.displayName);
-                    });
-
-                    ///ユーザーネームと身長をfirestoreに登録
-                    _loginModel.addUsersName(
-                        nickname: username, email: email, stringHeight: height);
-
-                    ///heightをデフォルトとして記憶しておく
-                    exportedHeight = _loginModel.exportedHeight;
-
-                    ///NavigationPagesへ移動
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Tab()),
-                    );
-                  } on FirebaseAuthException catch (e) {
-                    if (auth.currentUser!.email != null) {
-                      _addModelController.showMyDialog(
-                          context: context, text: 'アカウントがすでにあるようです。');
-                    }
-                    print('ログイン失敗');
-                    print(e);
-                  } on Exception catch (e) {
-                    print('ログイン成功');
-                    print(e);
-                  }
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0)),
-                color: kNuanceColour,
-                elevation: 5.0,
-                child: Text(
-                  'はじめる',
-                  style: kBlackTextStyle,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  MaterialButton(
+                    onPressed: () => _loginModel.signInButtonPressed(
+                        context: context,
+                        email: email,
+                        password: password,
+                        username: username,
+                        errorMessage: errorMessage,
+                        successShowDialog: _addModelController.showMyDialog(
+                            context: context, text: '登録しました。ログインボタンを押してください。'),
+                        errorShowDialog: _addModelController.showMyDialog(
+                            context: context, text: errorMessage)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                    color: kNuanceColour,
+                    elevation: 5.0,
+                    child: Text(
+                      '登録',
+                      style: kBlackTextStyle,
+                    ),
+                  ),
+                  MaterialButton(
+                    onPressed: () => _loginModel.loginButtonPressed(
+                        context: context,
+                        routePage: myTab(),
+                        email: email,
+                        password: password,
+                        username: username,
+                        errorMessage: errorMessage,
+                        errorShowDialog: _addModelController.showMyDialog(
+                            context: context, text: errorMessage)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                    color: kNuanceColour,
+                    elevation: 5.0,
+                    child: Text(
+                      'ログイン',
+                      style: kBlackTextStyle,
+                    ),
+                  ),
+                ],
               ),
+              SizedBox(width: 10.0, height: 20.0),
             ],
           ),
         ),
