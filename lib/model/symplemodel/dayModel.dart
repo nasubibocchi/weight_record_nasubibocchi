@@ -8,6 +8,12 @@ class DayModel {
     return _result;
   }
 
+  ///日付の文字列フォーマットを変更
+  String dateTime2MonthDate({required DateTime date}) {
+    final _result = DateFormat('Md').format(date);
+    return _result;
+  }
+
   ///年月の文字列取得
   String getYearAndMonthString({required DateTime date}) {
     final _month = date.month;
@@ -15,6 +21,13 @@ class DayModel {
     String _result = _year.toString() + '-' + _month.toString();
     return _result;
   }
+
+  ///日付を戻す
+  DateTime lastDays ({required int x}) {
+    DateTime _lastDays = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day-x);
+    return _lastDays;
+  }
+
 
 // ///firestoreから自分の記録の年月リストを取得する
 // Future<List<String>> getYearAndMonth () async {

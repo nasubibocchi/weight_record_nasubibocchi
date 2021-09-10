@@ -43,7 +43,7 @@ class MyHomePage extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasData) {
-          return myTab();
+          return MyTab();
         } else {
           return UserPage();
         }
@@ -53,7 +53,7 @@ class MyHomePage extends StatelessWidget {
 }
 
 ///navigation
-class myTab extends StatelessWidget {
+class MyTab extends StatelessWidget {
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
   final _dayModel = DayModel();
