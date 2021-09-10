@@ -37,6 +37,7 @@ dependencies:
   firebase_core: ^1.6.0
   intl: ^0.17.0
   dots_indicator: ^2.0.0
+  flutter_native_splash: ^1.2.3
 
 
 dev_dependencies:
@@ -84,3 +85,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_native_splash:
+  background_image: "assets/appstore.png"
