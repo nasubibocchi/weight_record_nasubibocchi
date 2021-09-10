@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weight_record_nasubibocchi/constants/const.dart';
 import 'package:weight_record_nasubibocchi/model/symplemodel/dayModel.dart';
-import 'package:weight_record_nasubibocchi/model/viewmodel/firestoreDatamodel.dart';
+import 'package:weight_record_nasubibocchi/model/symplemodel/firestoreDatamodel.dart';
 
 import '../model/viewmodel/chartmodel.dart';
 import 'datas.dart';
@@ -22,12 +22,9 @@ class BarChartSampleNasubiEmpty extends HookConsumerWidget {
         print('touchedIndex changes');
       },
     );
-    // final _firestoreDataModel = ref.watch(firestoreDataModelProvider);
-    // final recordData = _firestoreDataModel.recordList;
-    final _firestoreDataModel = DataModelState();
+
+    final _firestoreDataModel = DataModel();
     final _dayModel = DayModel();
-
-
 
     return FutureBuilder(
         future: _firestoreDataModel.getDateAndWeight(),
@@ -81,51 +78,58 @@ class BarChartSampleNasubiEmpty extends HookConsumerWidget {
                                   ///タップした時に出てくる表示
                                   barTouchData: BarTouchData(
                                     touchTooltipData: BarTouchTooltipData(
-                                      tooltipBgColor: kBaseColour,
+                                      tooltipBgColor: kMainColour,
                                       getTooltipItem:
                                           (group, groupIndex, rod, rodIndex) {
                                         switch (group.x.toInt()) {
                                           case 0:
                                             _model.weekDay = _dayModel
-                                                    .lastDays(x: 6)
-                                                    .toString() +
-                                                '日';
+                                                .dateTime2MonthDate(
+                                                    date: _dayModel.lastDays(
+                                                        x: 6))
+                                                .toString();
                                             break;
                                           case 1:
                                             _model.weekDay = _dayModel
-                                                    .lastDays(x: 5)
-                                                    .toString() +
-                                                '日';
+                                                .dateTime2MonthDate(
+                                                date: _dayModel.lastDays(
+                                                    x: 5))
+                                                .toString();
                                             break;
                                           case 2:
                                             _model.weekDay = _dayModel
-                                                    .lastDays(x: 4)
-                                                    .toString() +
-                                                '日';
+                                                .dateTime2MonthDate(
+                                                date: _dayModel.lastDays(
+                                                    x: 4))
+                                                .toString();
                                             break;
                                           case 3:
                                             _model.weekDay = _dayModel
-                                                    .lastDays(x: 3)
-                                                    .toString() +
-                                                '日';
+                                                .dateTime2MonthDate(
+                                                date: _dayModel.lastDays(
+                                                    x: 3))
+                                                .toString();
                                             break;
                                           case 4:
                                             _model.weekDay = _dayModel
-                                                    .lastDays(x: 2)
-                                                    .toString() +
-                                                '日';
+                                                .dateTime2MonthDate(
+                                                date: _dayModel.lastDays(
+                                                    x: 2))
+                                                .toString();
                                             break;
                                           case 5:
                                             _model.weekDay = _dayModel
-                                                    .lastDays(x: 1)
-                                                    .toString() +
-                                                '日';
+                                                .dateTime2MonthDate(
+                                                date: _dayModel.lastDays(
+                                                    x: 1))
+                                                .toString();
                                             break;
                                           case 6:
                                             _model.weekDay = _dayModel
-                                                    .lastDays(x: 0)
-                                                    .toString() +
-                                                '日';
+                                                .dateTime2MonthDate(
+                                                date: _dayModel.lastDays(
+                                                    x: 0))
+                                                .toString();
                                             break;
                                           default:
                                             throw Error();
@@ -135,16 +139,16 @@ class BarChartSampleNasubiEmpty extends HookConsumerWidget {
                                           _model.weekDay! + '\n',
                                           TextStyle(
                                             color: kBaseColour,
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight: FontWeight.normal,
                                             fontSize: 18,
                                           ),
                                           children: <TextSpan>[
                                             TextSpan(
-                                              text: (rod.y - 1).toString(),
+                                              text: (rod.y).toString() + 'kg',
                                               style: TextStyle(
                                                 color: kBaseColour,
                                                 fontSize: 16,
-                                                fontWeight: FontWeight.w500,
+                                                fontWeight: FontWeight.normal,
                                               ),
                                             ),
                                           ],
@@ -288,7 +292,8 @@ class BarChartSampleNasubiEmpty extends HookConsumerWidget {
                                           final _check = snapshot.data
                                               .map((e) => e.date!)
                                               .toList()
-                                              .indexOf(_dayModel.lastDays(x: 6));
+                                              .indexOf(
+                                                  _dayModel.lastDays(x: 6));
                                           final _data = _check != -1
                                               ? snapshot.data
                                                   .map((e) =>
@@ -303,92 +308,98 @@ class BarChartSampleNasubiEmpty extends HookConsumerWidget {
                                           final _check = snapshot.data
                                               .map((e) => e.date!)
                                               .toList()
-                                              .indexOf(_dayModel.lastDays(x: 5));
+                                              .indexOf(
+                                                  _dayModel.lastDays(x: 5));
                                           final _data = _check != -1
                                               ? snapshot.data
-                                              .map((e) =>
-                                              double.parse(e.weight!))
-                                              .toList()[_check]
+                                                  .map((e) =>
+                                                      double.parse(e.weight!))
+                                                  .toList()[_check]
                                               : 0.0;
                                           return _modelState.makeGroupData(
                                               i, _data, _test[0] + 10.0,
                                               isTouched:
-                                              i == _model.touchedIndex);
+                                                  i == _model.touchedIndex);
                                         case 2:
                                           final _check = snapshot.data
                                               .map((e) => e.date!)
                                               .toList()
-                                              .indexOf(_dayModel.lastDays(x: 4));
+                                              .indexOf(
+                                                  _dayModel.lastDays(x: 4));
                                           final _data = _check != -1
                                               ? snapshot.data
-                                              .map((e) =>
-                                              double.parse(e.weight!))
-                                              .toList()[_check]
+                                                  .map((e) =>
+                                                      double.parse(e.weight!))
+                                                  .toList()[_check]
                                               : 0.0;
                                           return _modelState.makeGroupData(
                                               i, _data, _test[0] + 10.0,
                                               isTouched:
-                                              i == _model.touchedIndex);
+                                                  i == _model.touchedIndex);
                                         case 3:
                                           final _check = snapshot.data
                                               .map((e) => e.date!)
                                               .toList()
-                                              .indexOf(_dayModel.lastDays(x: 3));
+                                              .indexOf(
+                                                  _dayModel.lastDays(x: 3));
                                           final _data = _check != -1
                                               ? snapshot.data
-                                              .map((e) =>
-                                              double.parse(e.weight!))
-                                              .toList()[_check]
+                                                  .map((e) =>
+                                                      double.parse(e.weight!))
+                                                  .toList()[_check]
                                               : 0.0;
                                           return _modelState.makeGroupData(
                                               i, _data, _test[0] + 10.0,
                                               isTouched:
-                                              i == _model.touchedIndex);
+                                                  i == _model.touchedIndex);
                                         case 4:
                                           final _check = snapshot.data
                                               .map((e) => e.date!)
                                               .toList()
-                                              .indexOf(_dayModel.lastDays(x: 2));
+                                              .indexOf(
+                                                  _dayModel.lastDays(x: 2));
                                           final _data = _check != -1
                                               ? snapshot.data
-                                              .map((e) =>
-                                              double.parse(e.weight!))
-                                              .toList()[_check]
+                                                  .map((e) =>
+                                                      double.parse(e.weight!))
+                                                  .toList()[_check]
                                               : 0.0;
                                           return _modelState.makeGroupData(
                                               i, _data, _test[0] + 10.0,
                                               isTouched:
-                                              i == _model.touchedIndex);
+                                                  i == _model.touchedIndex);
                                         case 5:
                                           final _check = snapshot.data
                                               .map((e) => e.date!)
                                               .toList()
-                                              .indexOf(_dayModel.lastDays(x: 1));
+                                              .indexOf(
+                                                  _dayModel.lastDays(x: 1));
                                           final _data = _check != -1
                                               ? snapshot.data
-                                              .map((e) =>
-                                              double.parse(e.weight!))
-                                              .toList()[_check]
+                                                  .map((e) =>
+                                                      double.parse(e.weight!))
+                                                  .toList()[_check]
                                               : 0.0;
                                           return _modelState.makeGroupData(
                                               i, _data, _test[0] + 10.0,
                                               isTouched:
-                                              i == _model.touchedIndex);
+                                                  i == _model.touchedIndex);
                                         case 6:
                                           final _check = snapshot.data
                                               .map((e) => e.date!)
                                               .toList()
-                                              .indexOf(_dayModel.lastDays(x: 0));
+                                              .indexOf(
+                                                  _dayModel.lastDays(x: 0));
                                           final _data = _check != -1
                                               ? snapshot.data
-                                              .map((e) =>
-                                              double.parse(e.weight!))
-                                              .toList()[_check]
+                                                  .map((e) =>
+                                                      double.parse(e.weight!))
+                                                  .toList()[_check]
                                               : 0.0;
                                           return _modelState.makeGroupData(
                                               i, _data, _test[0] + 10.0,
                                               isTouched:
-                                              i == _model.touchedIndex);
+                                                  i == _model.touchedIndex);
                                         default:
                                           return throw Error();
                                       }

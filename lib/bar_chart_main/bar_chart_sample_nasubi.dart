@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:weight_record_nasubibocchi/constants/const.dart';
-import 'package:weight_record_nasubibocchi/model/viewmodel/firestoreDatamodel.dart';
+import 'package:weight_record_nasubibocchi/model/symplemodel/firestoreDatamodel.dart';
 
 import '../model/viewmodel/chartmodel.dart';
 import 'datas.dart';
@@ -23,7 +23,7 @@ class BarChartSampleNasubi extends HookConsumerWidget {
     );
     // final _firestoreDataModel = ref.watch(firestoreDataModelProvider);
     // final recordData = _firestoreDataModel.recordList;
-    final _firestoreDataModel = DataModelState();
+    final _firestoreDataModel = DataModel();
 
     return FutureBuilder(
         future: _firestoreDataModel.getDateAndWeight(),

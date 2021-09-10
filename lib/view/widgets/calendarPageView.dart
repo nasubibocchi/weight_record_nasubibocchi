@@ -28,6 +28,11 @@ class CalendarPageView extends HookConsumerWidget {
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
             child: Center(
               child: new DropdownButton<String>(
+                icon: Icon(
+                  Icons.arrow_drop_down_sharp,
+                  color: kAccentColour,
+                ),
+                iconSize: 36.0,
                 elevation: 5,
                 menuMaxHeight: 200.0,
                 items: dropDownList.map((String value) {
@@ -174,9 +179,8 @@ Widget recordDataCard(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            '-' +
-                                recordDataList[index].date!.day.toString() +
-                                '日-',
+                            'day - ' +
+                                recordDataList[index].date!.day.toString(),
                             style: TextStyle(
                                 fontSize: 30.0,
                                 color: kMainColour,

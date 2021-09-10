@@ -23,11 +23,11 @@ class DayModel {
   }
 
   ///日付を戻す
-  DateTime lastDays ({required int x}) {
-    DateTime _lastDays = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day-x);
+  DateTime lastDays({required int x}) {
+    DateTime _lastDays = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day - x);
     return _lastDays;
   }
-
 
 // ///firestoreから自分の記録の年月リストを取得する
 // Future<List<String>> getYearAndMonth () async {
