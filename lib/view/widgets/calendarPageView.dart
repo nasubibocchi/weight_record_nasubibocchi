@@ -113,7 +113,7 @@ class CalendarPage extends HookConsumerWidget {
           final _newSnapshot =
               snapshot.data!.docs.map((e) => Record(e)).toList();
           return PageView.builder(
-            controller: PageController(initialPage: 1200),
+            controller: PageController(initialPage: 1200, viewportFraction: 0.8),
             itemCount: _newSnapshot.length,
             itemBuilder: (BuildContext context, int index) {
               return recordDataCard(
